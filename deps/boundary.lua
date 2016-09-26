@@ -3,12 +3,8 @@
 -- @file boundary.lua
 --
 --[[lit-meta
-  name = "luvit/boundary"
+  name = "bmc/boundary"
   version = "2.0.0"
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/core.lua"
-  description = "Core object model for luvit using simple prototypes and inheritance."
-  tags = {"luvit", "objects", "inheritance"}
 ]]
 local fs = require('fs')
 local json = require('json')

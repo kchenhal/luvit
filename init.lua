@@ -15,13 +15,42 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
+local uv = require('uv')
+
+local function gethostname()
+	local ffi = require("ffi")
+	ffi.cdef [[
+		int gethostname(char *name, unsigned int len);
+	]]
+
+	local lib
+	if ffi.os == "Windows" then
+		lib = ffi.load("ws2_32")
+	else
+		lib = ffi.C
+	end
+
+	len = 255
+	local buf = ffi.new("uint8_t[?]", len)
+	local ret = lib.gethostname(buf, len)
+	assert(ret == 0)
+	return ffi.string(buf)
+end
 
 return function (main, ...)
-  -- truesight backward changes
-  local uv = require('uv')
-  local timer = {}
-  timer.now = uv.now
-  uv.Timer = timer
+  do
+    -- truesight backward changes
+    local timer = {}
+    timer.now = uv.now
+    uv.Timer = timer
+
+    local process = {}
+    process.hrtime = uv.hrtime
+    uv.Process = process
+
+    local os = require("os")
+	os.hostname = gethostname
+  end
 
   -- Inject the global process table
   _G.process = require('process').globalProcess()
