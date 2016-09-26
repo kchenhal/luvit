@@ -51,6 +51,7 @@ return {
     "luvit/utils@2.0.0",
     "luvit/url@2.0.0",
     "bmc/boundary@2.0.0",
+    "bmc/framework",
   },
   files = {
     "*.lua",
